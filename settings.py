@@ -11,6 +11,17 @@ settings = {
         'iconv': 1,
         'log': './log/qq-music.%s.log' % time_str,
         'data_path': './data/qq-music.%s.txt' % time_str,
+        'save': './work/qq-music.%s.html' % time_str,
+        'retry': 5,
+
+        # parser mark
+        'block_start': '<div class="toplist_zone">',
+        'block_end': '<div class="page">',
+        'end_mark': '</span>',
+        'song_mark': '<span class="song">',
+        'singer_mark': '<span class="singer">',
+        
+        'head_flag': 0,
         'headers': {
             'Host': 'music.soso.com',
             'Connection': 'keep-alive',

@@ -76,4 +76,17 @@ def create_logger(module):
 
     return logger
 
+#---function---
+def str_replace(html):
+#{
+    special_str = {
+        '&#45;': '-',
+        '&#32;': ' ',
+    }
+
+    for sp_str in special_str :
+        html = html.replace(sp_str, special_str[sp_str])
+
+    return html
+#}
 
