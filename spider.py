@@ -24,7 +24,7 @@ if not (argc > 1) :
 
 argv = sys.argv[1]
 if not (argv in gconfig.settings) :
-    print 'Wrong configuration.'
+    print 'Wrong configuration for:[%s].' % argv
     exit(0)
 
 module = argv
