@@ -1,4 +1,5 @@
 import re
+import logging
 
 def debug(msg, exit_flag = 0) :
     print msg
@@ -49,5 +50,30 @@ def unescape(text):
                 pass
         return text # leave as is
     return re.sub("&#?\w+;", fixup, text)
+
+def create_logger(module):
+    from settings import settings as gconfig
+    if not (module in gconfig) :
+        print 'wrong configuration.'
+        exit(-1)
+
+    config = gconfig[module]
+
+    logger = logging.getLogger(module)
+    logger.setLevel(logging.DEBUG)
+
+    # create file handler which logs even debug messages
+    fh = logging.FileHandler(config['log'])
+    fh.setLevel(logging.DEBUG)
+
+    # create formatter and add it to the handlers
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    fh.setFormatter(formatter)
+    # add the handlers to logger
+    logger.addHandler(fh)
+
+    logger.info('Init logger for %s' % module)
+
+    return logger
 
 

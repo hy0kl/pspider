@@ -7,7 +7,7 @@ import urllib2
 import re
 import HTMLParser
 import re
-import settings as config
+import settings as gconfig
 import tools
 
 def str_replace(html):
@@ -23,8 +23,14 @@ def str_replace(html):
     return html
 #}
 
+module = 'qq-music'
+
+# init logger
+logger = tools.create_logger(module)
+logger.info('Beginning for %s' % module)
+
 parser = HTMLParser.HTMLParser()
-qq = config.settings['qq-music']
+qq = gconfig.settings[module]
 f  = open(qq['data_path'], 'w', 0)
 #debug(qq, 0)
 
@@ -88,3 +94,5 @@ while song_mark in sub_content :
 #}
 
 f.close()
+
+logger.info('The [%s] process is completed.' % module)
