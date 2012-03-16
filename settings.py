@@ -95,8 +95,38 @@ settings = {
             'Accept-Charset': 'UTF-8,*;q=0.5',
             #'Cookie: '
         }
-    }
+    },
 
+    # kuwo billboard
+    'kuwo-billboard': {
+        'url': 'http://yinyue.kuwo.cn/yy/billboard_index.htm',
+        'iconv': 0, # html is utf-8
+        'log': './log/kuwo-billboard.%s.log' % time_str,
+        'data_path': './data/kuwo-billboard.%s.txt' % time_str,
+        'save': './work/kuwo-billboard.%s.html' % time_str,
+        'retry': 5,
+        #'callback': 'baidu_top',
+
+        # parser mark
+        'block_start': '<ul class="itemUl">',
+        'block_end': '<input type="hidden" id="cat"',
+        'end_mark': '</li>',
+        'song_mark': '<li class="songName">',
+        'singer_mark': '<li class="songer">',
+
+        'head_flag': 0,
+        'headers': {
+            'Host': 'yinyue.kuwo.cn',
+            'Connection': 'keep-alive',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.79 Safari/535.11',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Referer': 'http://www.kuwo.cn/',
+            'Accept-Encoding': 'gzip,deflate,sdch',
+            'Accept-Language': 'zh-CN,zh;q=0.8',
+            'Accept-Charset': 'UTF-8,*;q=0.5',
+            #'Cookie: '
+        }
+    }
 }
 
 if '__main__' == __name__ :
