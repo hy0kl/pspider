@@ -17,7 +17,17 @@ import HTMLParser
 import settings as gconfig
 import tools
 
-module = 'qq-music'
+argc = len(sys.argv)
+if not (argc > 1) :
+    print 'Need more arguments.'
+    exit(0)
+
+argv = sys.argv[1]
+if not (argv in gconfig.settings) :
+    print 'Wrong configuration.'
+    exit(0)
+
+module = argv
 
 # init logger
 logger = tools.create_logger(module)
