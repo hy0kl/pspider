@@ -48,4 +48,20 @@ if [ "start" == $runtype ]; then
     done
 fi
 
+if [ "stop" == $runtype ]; then
+   echo "Stop process, please wait a moment. :)" 
+
+   kill_pids=`ps aux | grep spider.py | grep -v grep | awk '{print $2}' | xargs`
+
+   #no process need to quit
+   if [ "$kill_pids" == "" ]; then
+       echo "No process need to quit..."
+       exit 0
+   fi
+
+   kill -s SIGKILL $kill_pids
+   echo "kill SIGKILL: $kill_pids"
+   exit 0
+fi
+
 exit 0
