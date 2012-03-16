@@ -82,6 +82,8 @@ def str_replace(html):
     special_str = {
         '&#45;': '-',
         '&#32;': ' ',
+        '\n': '',
+        '\r': '',
     }
 
     for sp_str in special_str :
@@ -90,3 +92,32 @@ def str_replace(html):
     return html
 #}
 
+# the html use ellipsis, so shule use callback
+def baidu_top(html):
+#{
+    if '...' in html :
+        find = 'title='
+        if find in html :
+            f_index  = html.find(find)
+            f_char   = html[f_index + len(find)]
+            sub_html = html[f_index + len(find) + 1: ]
+            f_index  = sub_html.find(f_char)
+            sub_html = sub_html[0: f_index]
+
+            html = sub_html
+    else :
+        html =  re.sub(r'</?\w+[^>]*>', '', html)
+
+    return html
+#}
+
+def callback(obj, callback_fun):
+#{
+    if 'baidu_top' == callback_fun :
+        return baidu_top(obj)
+    else :
+        return obj
+#}
+
+if '__main__' == __name__ :
+    print baidu_top('test....<a title="abc">a</a>')

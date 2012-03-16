@@ -100,8 +100,6 @@ while song_mark in sub_content :
     sub_content = sub_content[start_index + len(song_mark): ]
     end_index   = sub_content.index(end_mark)
     song_data = sub_content[0: end_index]
-    #print song_data
-    song = re.sub(r'</?\w+[^>]*>', '', song_data)
     #song = parser.unescape(song)
     #song = decode_html(song)
     #song = unescape(song)
@@ -111,7 +109,14 @@ while song_mark in sub_content :
     end_index   = sub_content.index(end_mark)
     singer_data = sub_content[start_index + len(singer_mark): end_index]
     #print singer_data
-    singer = re.sub(r'</?\w+[^>]*>', '', singer_data)
+    if 'callback' in conf :
+        song   = tools.callback(song_data, conf['callback'])
+        singer = tools.callback(singer_data, conf['callback'])
+        #tools.debug(song)
+        #tools.debug(singer, 1)
+    else :
+        song   = re.sub(r'</?\w+[^>]*>', '', song_data)
+        singer = re.sub(r'</?\w+[^>]*>', '', singer_data)
     #singer = parser.unescape(singer)
     #singer = decode_html(singer)
     #singer = unescape(singer)
@@ -119,7 +124,7 @@ while song_mark in sub_content :
     sub_content = sub_content[end_index + len(end_mark): ]
 
     try:
-        song = parser.unescape(song)
+        song   = parser.unescape(song)
         singer = parser.unescape(singer)
         
         out_str = song + "\t" + singer + "\n"
