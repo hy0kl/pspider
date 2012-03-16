@@ -1,3 +1,7 @@
 python spider
 
 Fetch title for new song, from qq music, kuwo, baidu, 9sky, kugou, top100, sogou, 1ting and so on.
+
+Usage:
+#cd "root-path"
+./shell/control.sh start
