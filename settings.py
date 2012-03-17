@@ -126,7 +126,9 @@ settings = {
             'Accept-Charset': 'UTF-8,*;q=0.5',
             #'Cookie: '
         }
-    }
+    },
+
+    # pagination : {'start': 1, 'end': 10}
 }
 
 if '__main__' == __name__ :

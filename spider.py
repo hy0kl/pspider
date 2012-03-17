@@ -38,106 +38,90 @@ parser = HTMLParser.HTMLParser()
 conf = gconfig.settings[module]
 
 try:
-    f  = open(conf['data_path'], 'w', 0)
+    f = open(conf['data_path'], 'w', 0)
 except IOError:
     logger.warn('Can NOT open file: %s' % conf['data_path'])
     exit(-1)
 
-# create request
-req = urllib2.Request(conf['url'])
-headers = conf['headers']
-for key, value in headers :
-    req.add_header(key, value)
-#tools.debug(req, 1)
+contents = tools.get_html(module, conf, logger)
 
-retry = 0
-while retry < conf['retry'] :
-    try:
-        if 'head_flag' in conf and conf['head_flag'] :
-            content = urllib2.urlopen(req).read()
-        else:
-            content = urllib2.urlopen(conf['url']).read()
-        break
-    except:
-        retry += 1
-        logger.info('Open [%s] is wrong, try it again times: %d' % (conf['url'], retry))
-        time.sleep(retry)
-
-logger.info('Download page success for: %s, url: %s' % (module, conf['url']))
-
-#exit(0)
-if ('iconv' in conf) and conf['iconv'] :
-    content = content.decode('gbk', 'ignore').encode('utf-8') 
-    logger.info('convert code success.')
-
-# backup
-if 'save' in conf :
-    try:
-        back_f = open(conf['save'], 'w', 0)
-        back_f.write(content)
-        logger.info('backup success.')
-    except:
-        pass
-
-special_str = conf['block_start'] 
-end_str     = conf['block_end']
-sub_content = ''
-if special_str in content :
-    start_index = content.index(special_str)
-    sub_content = content[start_index + len(special_str): ]
-    end_index   = sub_content.index(end_str)
-    sub_content = sub_content[0: end_index]
-    #sub_content = re.sub(r'</?\w+[^>]*>',' ', sub_content)
-
-###
-end_mark    = conf['end_mark']
-song_mark   = conf['song_mark']
-singer_mark = conf['singer_mark']
-find_index  = 0
-
-sub_content = tools.str_replace(sub_content)
-while song_mark in sub_content :
+for i in contents :
 #{
-    #print sub_content
-    start_index = sub_content.index(song_mark)
-    sub_content = sub_content[start_index + len(song_mark): ]
-    end_index   = sub_content.index(end_mark)
-    song_data = sub_content[0: end_index]
-    #song = parser.unescape(song)
-    #song = decode_html(song)
-    #song = unescape(song)
+    content = contains[i]
 
-    sub_content = sub_content[end_index + len(end_mark): ]
-    start_index = sub_content.index(singer_mark)
-    end_index   = sub_content.index(end_mark)
-    singer_data = sub_content[start_index + len(singer_mark): end_index]
-    #print singer_data
-    if 'callback' in conf :
-        song   = tools.callback(song_data, conf['callback'])
-        singer = tools.callback(singer_data, conf['callback'])
-        #tools.debug(song)
-        #tools.debug(singer, 1)
-    else :
-        song   = re.sub(r'</?\w+[^>]*>', '', song_data)
-        singer = re.sub(r'</?\w+[^>]*>', '', singer_data)
-    #singer = parser.unescape(singer)
-    #singer = decode_html(singer)
-    #singer = unescape(singer)
+    if ('iconv' in conf) and conf['iconv'] :
+        content = content.decode('gbk', 'ignore').encode('utf-8')
+        logger.info('convert code success.')
 
-    sub_content = sub_content[end_index + len(end_mark): ]
-
-    try:
-        song   = parser.unescape(song)
-        singer = parser.unescape(singer)
-        
-        out_str = song + "\t" + singer + "\n"
+    # backup
+    if 'save' in conf :
         try:
-            f.write(out_str)
-        except UnicodeEncodeError:
+            back_f = open(conf['save'], 'w+', 0)
+            back_f.write(content)
+            logger.info('backup success.')
+        except:
             pass
-    except UnicodeDecodeError: 
-        pass
-#}
+
+    special_str = conf['block_start']
+    end_str     = conf['block_end']
+    sub_content = ''
+    if special_str in content :
+        start_index = content.index(special_str)
+        sub_content = content[start_index + len(special_str): ]
+        end_index   = sub_content.index(end_str)
+        sub_content = sub_content[0: end_index]
+        #sub_content = re.sub(r'</?\w+[^>]*>',' ', sub_content)
+
+    ###
+    end_mark    = conf['end_mark']
+    song_mark   = conf['song_mark']
+    singer_mark = conf['singer_mark']
+    find_index  = 0
+
+    sub_content = tools.str_replace(sub_content)
+    while song_mark in sub_content :
+    #{
+        #print sub_content
+        start_index = sub_content.index(song_mark)
+        sub_content = sub_content[start_index + len(song_mark): ]
+        end_index   = sub_content.index(end_mark)
+        song_data   = sub_content[0: end_index]
+        #song = parser.unescape(song)
+        #song = decode_html(song)
+        #song = unescape(song)
+
+        sub_content = sub_content[end_index + len(end_mark): ]
+        start_index = sub_content.index(singer_mark)
+        end_index   = sub_content.index(end_mark)
+        singer_data = sub_content[start_index + len(singer_mark): end_index]
+        #print singer_data
+        if 'callback' in conf :
+            song   = tools.callback(song_data, conf['callback'])
+            singer = tools.callback(singer_data, conf['callback'])
+            #tools.debug(song)
+            #tools.debug(singer, 1)
+        else :
+            song   = re.sub(r'</?\w+[^>]*>', '', song_data)
+            singer = re.sub(r'</?\w+[^>]*>', '', singer_data)
+        #singer = parser.unescape(singer)
+        #singer = decode_html(singer)
+        #singer = unescape(singer)
+
+        sub_content = sub_content[end_index + len(end_mark): ]
+
+        try:
+            song   = parser.unescape(song)
+            singer = parser.unescape(singer)
+
+            out_str = song + "\t" + singer + "\n"
+            try:
+                f.write(out_str)
+            except UnicodeEncodeError:
+                pass
+        except UnicodeDecodeError:
+            pass
+    #} end while
+#} end for
 
 f.close()
 

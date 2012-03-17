@@ -1,4 +1,5 @@
 import re
+import time
 import logging
 
 def debug(msg, exit_flag = 0) :
@@ -121,6 +122,57 @@ def callback(obj, callback_fun):
         return callback[callback_fun](obj)
     else :
         return obj
+#}
+
+def get_html(module, conf, logger):
+#{
+    contents = []
+
+    index = 0
+    start = 0
+    end   = 0
+    url   = conf['url']
+    pagination_flag = 0
+
+    if 'pagination' in conf :
+        pagination_flag = 1
+        pager = conf['pagination']
+        start = pager['start']
+        end   = pager['end']
+
+    while start <= end :
+    #{
+        retry = 0
+
+        if pagination_flag :
+            url = url % start
+
+        # create request
+        req = urllib2.Request(url)
+        headers = conf['headers']
+        for key, value in headers :
+            req.add_header(key, value)
+
+        while retry < conf['retry'] :
+            try:
+                if 'head_flag' in conf and conf['head_flag'] :
+                    contents[index] = urllib2.urlopen(req).read()
+                else:
+                    contents[index] = urllib2.urlopen(url).read()
+                break
+
+            except:
+                retry += 1
+                logger.info('Open [%s] is wrong, try it again times: %d' % (conf['url'], retry))
+                time.sleep(retry)
+
+        logger.info('Download page success for: %s, url: %s' % (module, conf['url']))
+
+        index += 1
+        start += 1
+    #}
+
+    return contents
 #}
 
 if '__main__' == __name__ :
