@@ -135,7 +135,6 @@ def get_html(module, conf, logger):
 #{
     contents = []
 
-    index = 0
     start = 0
     end   = 0
     url   = conf['url']
@@ -163,19 +162,18 @@ def get_html(module, conf, logger):
         while retry < conf['retry'] :
             try:
                 if 'head_flag' in conf and conf['head_flag'] :
-                    contents[index] = urllib2.urlopen(req).read()
+                    contents.append(urllib2.urlopen(req).read())
                 else:
-                    contents[index] = urllib2.urlopen(url).read()
+                    contents.append(urllib2.urlopen(url).read())
                 break
 
             except:
                 retry += 1
-                logger.info('Open [%s] is wrong, try it again times: %d' % (conf['url'], retry))
+                logger.info('Open [%s] is wrong, try it again times: %d' % (url, retry))
                 time.sleep(retry)
 
-        logger.info('Download page success for: %s, url: %s' % (module, conf['url']))
+        logger.info('Download page success for: %s, url: %s' % (module, url))
 
-        index += 1
         start += 1
     #}
 
