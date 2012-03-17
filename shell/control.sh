@@ -29,6 +29,8 @@ do
     if [ -d $dir ]
     then
         echo "'$dir' diretory is exists."
+        # delete old file for space, befor 30 days.
+        find "$dir" -type f -mtime +30 -exec rm {} \;
     else
         echo "'$dir' is NOT exists, create it ..."
         mkdir -p $dir 
@@ -100,6 +102,7 @@ history="data/history"
 today="work/today"
 new_song="data/new-song.txt"
 new_song_gbk="data/new-song.gbk.txt"
+new_song_back="data/new-song.${today_str}.txt"
 merge_data="work/merge.txt"
 
 # sleep for spider, give time to fetch and parse
@@ -167,6 +170,7 @@ cat "$new_song" "$history" | sort -uf > "$history"
 
 # create gbk version for some system.
 iconv -c -f "utf-8" -t "gbk" "$new_song" -o "$new_song_gbk"
+cp "$new_song" "$new_song_back"
 
 # send mail logic.
 
