@@ -113,8 +113,12 @@ def baidu_top(html):
 
 def callback(obj, callback_fun):
 #{
-    if 'baidu_top' == callback_fun :
-        return baidu_top(obj)
+    callback = {
+        'baidu_top': 'baidu_top'
+    }
+
+    if 'baidu_top' in callback :
+        return callback[callback_fun](obj)
     else :
         return obj
 #}

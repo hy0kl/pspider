@@ -13,6 +13,7 @@ import sys
 import urllib2
 import re
 import HTMLParser
+import time
 
 import settings as gconfig
 import tools
@@ -45,8 +46,8 @@ except IOError:
 # create request
 req = urllib2.Request(conf['url'])
 headers = conf['headers']
-for key in headers :
-    req.add_header(key, headers[key])
+for key, value in headers :
+    req.add_header(key, value)
 #tools.debug(req, 1)
 
 retry = 0
@@ -60,6 +61,8 @@ while retry < conf['retry'] :
     except:
         retry += 1
         logger.info('Open [%s] is wrong, try it again times: %d' % (conf['url'], retry))
+        time.sleep(retry)
+
 logger.info('Download page success for: %s, url: %s' % (module, conf['url']))
 
 #exit(0)
