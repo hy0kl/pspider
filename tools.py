@@ -1,3 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+'''
+tools for spider
+'''
+
 import re
 import time
 import logging
