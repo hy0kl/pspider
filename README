@@ -5,3 +5,6 @@ Fetch title for new song, from qq music, kuwo, baidu, 9sky, kugou, top100, sogou
 Usage:
 #cd "root-path"
 ./shell/control.sh start
+
+crontab -e
+0 8 * * * cd /opt/fetch-new-title && ./shell/control.sh start
