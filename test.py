@@ -19,11 +19,15 @@ import logging
 import time
 
 import settings as gconfig
-import tools
-import proxy
+#import tools
+#import proxy
 
 if '__main__' == __name__ :
     # diff module
 
     # import module
-    import fetch_qq_music 
+    #import fetch_qq_music 
+    conf = gconfig.settings
+    for key in conf :
+        print 'key = %s, value: %s' % (key, conf[key])
+        print '*' * 20

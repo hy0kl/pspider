@@ -156,8 +156,8 @@ def get_html(module, conf, logger):
         # create request
         req = urllib2.Request(url)
         headers = conf['headers']
-        for key, value in headers :
-            req.add_header(key, value)
+        for key in headers :
+            req.add_header(key, headers[key])
 
         while retry < conf['retry'] :
             try:
