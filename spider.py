@@ -45,9 +45,9 @@ except IOError:
 
 contents = tools.get_html(module, conf, logger)
 
-for i in contents :
+for content in contents :
 #{
-    content = contains[i]
+    #content = contains[i]
 
     if ('iconv' in conf) and conf['iconv'] :
         content = content.decode('gbk', 'ignore').encode('utf-8')
