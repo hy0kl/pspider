@@ -1,5 +1,7 @@
 #!/bin/sh
 # author: hy0kle@gmail.com
+# date: 2012.03
+# version: 0.1
 # use shilt + 5, ^_*
 # parse data, find really new song by shell.
 
