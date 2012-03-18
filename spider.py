@@ -10,13 +10,16 @@ kugou, top100, sogou, 1ting and so on.
 '''
 import os
 import sys
-import urllib2
+import time
 import re
 import HTMLParser
-import time
+import urllib2
 
 import settings as gconfig
 import tools
+
+if '__main__' != __name__ :
+    exit(0)
 
 argc = len(sys.argv)
 if not (argc > 1) :
