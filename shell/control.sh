@@ -158,6 +158,12 @@ do
 
     if ((i > 16))
     then
+        if ((SEND_MAIL))
+        then
+            mail_title="[Warning][$host_name][spider.py] execute timeout, at $today_str"
+            echo "Spider process is timeout, please check it out." | mail -s "${mail_title}" "${mail_list}"
+        fi
+
         echo "Something is wrong..."
         exit -2
     fi
@@ -181,10 +187,14 @@ done
 today_num=$(wc -l $today | awk '{print $1}')
 if ((! (today_num > 0)))
 then
-    mail_title="[Warning][$host_name][spider.py] get data error, at $today_str"
     # need send mail to give notice.
-    echo "$today is empty, no spider data, please check it out." | mail -s "${mail_title}" "${mail_list}"
-    debug "send mail: Warning"
+    if ((SEND_MAIL))
+    then
+        mail_title="[Warning][$host_name][spider.py] get data error, at $today_str"
+        echo "$today is empty, no spider data, please check it out." | mail -s "${mail_title}" "${mail_list}"
+        debug "send mail: Warning"
+    fi
+    debug "$today data is empty."
 
     exit -3
 fi
