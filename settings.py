@@ -24,8 +24,8 @@ settings = {
 
         'head_flag': 0,
         'headers': {
-            'Host': 'music.soso.com',
-            'Connection': 'keep-alive',
+            #'Host': 'music.soso.com',
+            #'Connection': 'keep-alive',
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.79 Safari/535.11',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Referer': 'http://music.soso.com/',
@@ -54,8 +54,8 @@ settings = {
 
         'head_flag': 0,
         'headers': {
-            'Host': 'music.soso.com',
-            'Connection': 'keep-alive',
+            #'Host': 'music.soso.com',
+            #'Connection': 'keep-alive',
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.79 Safari/535.11',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Referer': 'http://music.soso.com/',
@@ -85,8 +85,8 @@ settings = {
 
         'head_flag': 0,
         'headers': {
-            'Host': 'mp3.baidu.com',
-            'Connection': 'keep-alive',
+            #'Host': 'mp3.baidu.com',
+            #'Connection': 'keep-alive',
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.79 Safari/535.11',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Referer': 'http://mp3.baidu.com/',
@@ -115,8 +115,8 @@ settings = {
 
         'head_flag': 0,
         'headers': {
-            'Host': 'yinyue.kuwo.cn',
-            'Connection': 'keep-alive',
+            #'Host': 'yinyue.kuwo.cn',
+            #'Connection': 'keep-alive',
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.79 Safari/535.11',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Referer': 'http://www.kuwo.cn/',
