@@ -159,20 +159,27 @@ def get_html(module, conf, logger):
         for key in headers :
             req.add_header(key, headers[key])
 
+        html = ''
         while retry < conf['retry'] :
             try:
                 if 'head_flag' in conf and conf['head_flag'] :
-                    contents.append(urllib2.urlopen(req).read())
+                    html = urllib2.urlopen(req).read()
                 else:
-                    contents.append(urllib2.urlopen(url).read())
+                    html = urllib2.urlopen(url).read()
                 break
 
-            except:
+            except e:
                 retry += 1
-                logger.info('Open [%s] is wrong, try it again times: %d' % (url, retry))
+                logger.info('Open [%s] is wrong, try it again times: %d. [Exceptio]' %
+                    (url, retry, e))
                 time.sleep(retry)
 
-        logger.info('Download page success for: %s, url: %s' % (module, url))
+        contents.append(html)
+        html_len = len(html)
+        if html_len :
+            logger.info('Download page success for: %s, url: %s' % (module, url))
+        else :
+            logger.info('The HTML source is empty, url: %s' % url)
 
         start += 1
     #}

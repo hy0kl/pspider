@@ -39,8 +39,9 @@ conf = gconfig.settings[module]
 
 try:
     f = open(conf['data_path'], 'w', 0)
-except IOError:
-    logger.warn('Can NOT open file: %s' % conf['data_path'])
+except IOError, e :
+    logger.warn('Can NOT open file: %s. [Except]: %s' %
+        (conf['data_path'], e))
     exit(-1)
 
 contents = tools.get_html(module, conf, logger)
@@ -59,7 +60,8 @@ for content in contents :
             back_f = open(conf['save'], 'w+', 0)
             back_f.write(content)
             logger.info('backup success.')
-        except:
+        except e :
+            logger.info('Can NOT save html page. [Except]: %s' % e)
             pass
 
     special_str = conf['block_start']
@@ -79,6 +81,7 @@ for content in contents :
     find_index  = 0
 
     sub_content = tools.str_replace(sub_content)
+    i = 0
     while song_mark in sub_content :
     #{
         #print sub_content
@@ -114,12 +117,11 @@ for content in contents :
             singer = parser.unescape(singer)
 
             out_str = song + "\t" + singer + "\n"
-            try:
-                f.write(out_str)
-            except UnicodeEncodeError:
-                pass
-        except UnicodeDecodeError:
+            f.write(out_str)
+        except (UnicodeDecodeError, UnicodeEncodeError, e) :
+            logger.info('Parse data error. Iterate times:%d. [Except]: %s' % (i, e))
             pass
+        i += 1
     #} end while
 #} end for
 
