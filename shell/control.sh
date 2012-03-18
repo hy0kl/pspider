@@ -1,5 +1,7 @@
 #!/bin/sh
+# author: hy0kle@gmail.com
 # use shilt + 5, ^_*
+# parse data, find really new song by shell.
 
 #set -x
 
@@ -10,11 +12,19 @@ if [ $# -lt 1 ];then
 fi
 runtype=$1
 
-if [ "$runtype" != "start" ] && [ "$runtype" != "stop" && "parse" != "$runtype" ];
+if [ "$runtype" != "start" ] && [ "$runtype" != "stop" ] && [ "parse" != "$runtype" ];
 then
     echo "$Usage"
     exit 1
 fi
+
+# init global var, need, necessarily!!!
+###{
+DEBUG_FLAG=1
+SEND_MAIL=1
+mail_list="hy0kle@gmail.com" # need, necessarily!!!
+host_name=$(hostname)
+start_time=$(date +"%Y-%m-%d:%H:%M:%S")
 
 # modules
 modules="qq-music qq-index list-baidu kuwo-billboard sogou-newtop 9sky-top 1ting-song"
@@ -24,6 +34,8 @@ py=python
 
 # check env diretory
 evn_dir="log data  work"
+###}
+
 for dir in $evn_dir
 do
     if [ -d $dir ]
@@ -37,15 +49,41 @@ do
     fi  
 done
 
+# global functions {
 work_pids=""
 function get_work_pids()
 {
     work_pids=$(ps aux | grep spider.py | grep -v grep | awk '{print $2}' | xargs)
 }
 
-if [ 0 == 1 ]; then
+function debug()
+{
+    if ((! DEBUG_FLAG))
+    then
+        return 0
+    fi
+
+    argc=$#
+    if ((0 == argc))
+    then
+        return 0
+    fi
+
+    msg="$1"
+    echo "$msg"
+
+    if ((argc > 1))
+    then
+        exit 0
+    fi
+}
+# } end functions
+
+if ((DEBUG_FLAG))
+then
 #{
 
+# start process
 work_flag=0
 if [ "start" == "$runtype" ]; then
     #work_pids=$(ps aux | grep spider.py | grep -v grep | awk '{print $2}' | xargs)
@@ -66,6 +104,7 @@ if [ "start" == "$runtype" ]; then
     work_flag=1
 fi
 
+# stop process
 if [ "stop" == "$runtype" ]; then
     echo "Stop process, please wait a moment. :)"
 
@@ -126,7 +165,7 @@ do
 done
 
 # merge all new data.
-#> $today
+> $today
 for module in $modules
 do
     spider_file="data/${module}.${today_str}.txt"
@@ -137,8 +176,14 @@ do
     fi
 done
 
-if [ ! -f $today ]; then
-    echo "$today is NOT exists, no spider data, please check it out."
+today_num=$(wc -l $today | awk '{print $1}')
+if ((! (today_num > 0)))
+then
+    mail_title="[Warning][$host_name][spider.py] get data error, at $today_str"
+    # need send mail to give notice.
+    echo "$today is empty, no spider data, please check it out." | mail -s "${mail_title}" "${mail_list}"
+    debug "send mail: Warning"
+
     exit -3
 fi
 
@@ -172,9 +217,33 @@ cat "$new_song" "$history" | sort -uf > "$history"
 iconv -c -f "utf-8" -t "gbk" "$new_song" -o "$new_song_gbk"
 cp "$new_song" "$new_song_back"
 
+end_time=$(date +"%Y-%m-%d:%H:%M:%S")
+
 # send mail logic.
+if ((SEND_MAIL))
+then
+    mail_info="log/mail.info"
+    > "$mail_info"
+    new_song_num=$(wc -l "$new_song" | awk '{print $1}')
+    mail_tile="[Statistics][$host_name]Spider for new song $today_str"
+
+    echo "Process start at $start_time,  Completed at $end_time." >> "$mail_info"
+    echo "Find $new_song_num new song tilte." >> "$mail_info"
+    if ((new_song_num))
+    then
+        echo "-----New song title-----" >> "$mail_info"
+        cat "$new_song" >> "$mail_info"
+        echo "-----END-----" >> "$mail_info"
+    else
+        echo "May be something is wrong, pleash check it out..." >> "$mail_info"
+    fi
+    echo "---" >> "$mail_info"
+    echo "By hy0kle@gmail.com" >> "$mail_info"
+
+    cat "$mail_info" | mail -s "${mail_title}" "${mail_list}"
+    debug "send mail: Statistics"
+fi
 
 echo "Completed."
-
 
 exit 0
