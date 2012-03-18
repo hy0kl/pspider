@@ -100,6 +100,16 @@ def str_replace(html):
     return html
 #}
 
+def strip_html_tag(html):
+#{
+    '''
+    strip html tag by re.
+    '''
+
+    html = re.sub(r'</?\w+[^>]*>', '', html)
+    return html
+#}
+
 # the html use ellipsis, so shule use callback
 def baidu_top(html):
 #{
@@ -114,7 +124,7 @@ def baidu_top(html):
 
             html = sub_html
     else :
-        html =  re.sub(r'</?\w+[^>]*>', '', html)
+        html =  strip_html_tag(html)
 
     return html
 #}

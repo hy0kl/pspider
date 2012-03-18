@@ -107,8 +107,8 @@ for content in contents :
             #tools.debug(song)
             #tools.debug(singer, 1)
         else :
-            song   = re.sub(r'</?\w+[^>]*>', '', song_data)
-            singer = re.sub(r'</?\w+[^>]*>', '', singer_data)
+            song   = strip_html_tag(song_data)
+            singer = strip_html_tag(singer_data)
         #singer = parser.unescape(singer)
         #singer = decode_html(singer)
         #singer = unescape(singer)
