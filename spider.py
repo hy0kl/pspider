@@ -39,7 +39,7 @@ conf = gconfig.settings[module]
 
 try:
     f = open(conf['data_path'], 'w', 0)
-except IOError, e :
+except (IOError), e :
     logger.warn('Can NOT open file: %s. [Except]: %s' %
         (conf['data_path'], e))
     exit(-1)
@@ -60,7 +60,7 @@ for content in contents :
             back_f = open(conf['save'], 'w+', 0)
             back_f.write(content)
             logger.info('backup success.')
-        except e :
+        except Exception, e :
             logger.info('Can NOT save html page. [Except]: %s' % e)
             pass
 
@@ -118,9 +118,10 @@ for content in contents :
 
             out_str = song + "\t" + singer + "\n"
             f.write(out_str)
-        except (UnicodeDecodeError, UnicodeEncodeError, e) :
-            logger.info('Parse data error. Iterate times:%d. [Except]: %s' % (i, e))
+        except (UnicodeDecodeError, UnicodeEncodeError), e :
+            logger.info('Parse data error. Iterate times:%d. [Exception]: %s' % (i, e))
             pass
+
         i += 1
     #} end while
 #} end for

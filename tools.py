@@ -180,9 +180,9 @@ def get_html(module, conf, logger):
                     html = urllib2.urlopen(url).read()
                 break
 
-            except e:
+            except Exception, e:
                 retry += 1
-                logger.info('Open [%s] is wrong, try it again times: %d. [Exceptio]' %
+                logger.info('Open [%s] is wrong, try it again times: %d. [Exception]' %
                     (url, retry, e))
                 time.sleep(retry)
 
