@@ -7,4 +7,4 @@ Usage:
 ./shell/control.sh start
 
 crontab -e
-0 8 * * * cd /opt/fetch-new-title && ./shell/control.sh start
+0 8 * * * cd /opt/fetch-new-title && ./shell/control.sh start >> /opt/fetch-new-title/log/crontab.$(date +"%Y-%m-%d").log

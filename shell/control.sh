@@ -22,6 +22,7 @@ fi
 
 # init global var, need, necessarily!!!
 ###{
+. ~/.bashrc
 DEBUG_FLAG=1
 SEND_MAIL=1
 mail_list="hy0kle@gmail.com" # need, necessarily!!!
@@ -194,7 +195,7 @@ then
         echo "$today is empty, no spider data, please check it out." | mail -s "${mail_title}" "${mail_list}"
         debug "send mail: Warning"
     fi
-    debug "$today data is empty."
+    echo "$today data is empty."
 
     exit -3
 fi
