@@ -105,7 +105,6 @@ settings = {
         'data_path': './data/kuwo-billboard.%s.txt' % time_str,
         'save': './work/kuwo-billboard.%s.html' % time_str,
         'retry': 5,
-        #'callback': 'baidu_top',
 
         # parser mark
         'block_start': '<ul class="itemUl">',

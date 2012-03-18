@@ -119,14 +119,26 @@ def baidu_top(html):
     return html
 #}
 
-def callback(obj, callback_fun):
+def kugou_parse(html):
+    pass
+
+def top_cn(html):
+    pass
+
+def google_music(html):
+    pass
+
+def callback(obj, fun):
 #{
     callback = {
-        'baidu_top': 'baidu_top'
+        'baidu_top': 'baidu_top',
+        'kugou': 'kugou_parse',
+        'top_cn': 'top_cn',
+        'google': 'google_music',
     }
 
-    if 'baidu_top' in callback :
-        return callback[callback_fun](obj)
+    if fun in callback :
+        return callback[fun](obj)
     else :
         return obj
 #}
