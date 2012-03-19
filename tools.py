@@ -146,8 +146,30 @@ def sogou_newtop(html):
     return html
 #}
 
+def yting_top(html):
+#{
+    find = '" t'
+    if find in html:
+        f_index = html.find(find)
+        html = html[0: f_index]
+
+    return html
+#}
+
 def kugou_parse(html):
-    pass
+#{
+    res = {'song': '', 'singer': ''}
+
+    html = strip_html_tag(html)
+    html = re.sub(r'^\d*', '', html)
+    res_tmp  = html.split(' - ')
+    
+    if 2 == len(res_tmp) :
+        res['song']   = res_tmp[0]
+        res['singer'] = res_tmp[1]
+    
+    return res
+#}
 
 def top_cn(html):
     pass
@@ -161,7 +183,7 @@ def get_html(module, conf, logger):
 
     start = 0
     end   = 0
-    url   = conf['url']
+    original_url   = conf['url']
     pagination_flag = 0
 
     if 'pagination' in conf :
@@ -175,7 +197,9 @@ def get_html(module, conf, logger):
         retry = 0
 
         if pagination_flag :
-            url = url % start
+            url = original_url % start
+        else :
+            url = original_url
 
         # create request
         req = urllib2.Request(url)
@@ -194,7 +218,7 @@ def get_html(module, conf, logger):
 
             except Exception, e:
                 retry += 1
-                logger.info('Open [%s] is wrong, try it again times: %d. [Exception]' %
+                logger.info('Open [%s] is wrong, try it again times: %d. [Exception]: %s' %
                     (url, retry, e))
                 time.sleep(retry)
 

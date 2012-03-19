@@ -127,7 +127,7 @@ settings = {
         }
     },
 
-    #
+    # sogou
     'sogou-newtop': {
         'url': 'http://music.sogou.com/song/newtop_1.html',
         'iconv': 1, # html is gbk
@@ -157,6 +157,101 @@ settings = {
             #'Cookie: '
         }
     },
+
+    # 9sky-top
+    '9sky-top': {
+        'url': 'http://www.9sky.com/top/373.htm',
+        'iconv': 1, # html is gbk
+        'log': './log/9sky-top.%s.log' % time_str,
+        'data_path': './data/9sky-top.%s.txt' % time_str,
+        'save': './work/9sky-top.%s.html' % time_str,
+        'retry': 5,
+        #'callback': '9sky_top',
+
+        # parser mark
+        'block_start': '<div id="middle">',
+        'block_end': 'var bottom_right_ad=false',
+        'end_mark': '</div>',
+        'song_mark': '<div class="middle_b3">',
+        'singer_mark': '<div class="middle_b4">',
+
+        'head_flag': 0,
+        'headers': {
+            #'Host': '9sky.com',
+            #'Connection': 'keep-alive',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.79 Safari/535.11',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Referer': 'http://www.9sky.com/',
+            'Accept-Encoding': 'gzip,deflate,sdch',
+            'Accept-Language': 'zh-CN,zh;q=0.8',
+            'Accept-Charset': 'UTF-8,*;q=0.5',
+            #'Cookie: '
+        }
+    },
+
+    '1ting-song': {
+        'url': 'http://www.1ting.com/song_n.html',
+        'iconv': 0, # html is utf-8
+        'log': './log/1ting-song.%s.log' % time_str,
+        'data_path': './data/1ting-song.%s.txt' % time_str,
+        'save': './work/1ting-song.%s.html' % time_str,
+        'retry': 5,
+        'callback': 'yting_top',
+
+        # parser mark
+        'block_start': '<ul id="list-0">',
+        'block_end': '<p class="footlink">',
+        'end_mark': ' -',
+        'song_mark': 'title="',
+        'singer_mark': ' ',
+
+        'head_flag': 1,
+        'headers': {
+            #'Host': '1ting.com',
+            #'Connection': 'keep-alive',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.79 Safari/535.11',
+            #'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Referer': 'http://www.1ting.com/',
+            #'Accept-Encoding': 'gzip,deflate,sdch',
+            #'Accept-Language': 'zh-CN,zh;q=0.8',
+            #'Accept-Charset': 'UTF-8,*;q=0.5',
+            #'Cookie: '
+        }
+    },
+
+    #
+    'kugou': {
+        'url': 'http://www.kugou.com/yueku/html/musicrank/27/%s.html',
+        'iconv': 0, # html is utf-8
+        'log': './log/kugou.%s.log' % time_str,
+        'data_path': './data/kugou.%s.txt' % time_str,
+        'save': './work/kugou.%s.html' % time_str,
+        'retry': 5,
+        'callback': 'kugou',
+        'pagination' : {'start': 1, 'end': 10},
+
+        # parser mark
+        'simple_parse': 1,
+        'block_start': '<ul id="ul">',
+        'block_end': '<div id="public-footer">',
+        'end_mark': '</li>',
+        'song_mark': '<li>',
+        'singer_mark': 'None',
+
+        'head_flag': 0,
+        'headers': {
+            #'Host': 'kugou.com',
+            #'Connection': 'keep-alive',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.79 Safari/535.11',
+            #'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Referer': 'http://www.kugou.com/',
+            #'Accept-Encoding': 'gzip,deflate,sdch',
+            #'Accept-Language': 'zh-CN,zh;q=0.8',
+            #'Accept-Charset': 'UTF-8,*;q=0.5',
+            #'Cookie: '
+        }
+    },
+
     # pagination : {'start': 1, 'end': 10}
 }
 

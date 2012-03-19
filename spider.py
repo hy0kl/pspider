@@ -29,6 +29,7 @@ def callback(obj, fun):
         'top_cn':    'top_cn',
         'google':    'google_music',
         'sogou_newtop' : 'sogou_newtop',
+        'yting_top': 'yting_top'
     }
 
     if fun in callback :
@@ -111,41 +112,62 @@ for content in contents :
     i = 0
     while song_mark in sub_content :
     #{
-        #print sub_content
-        start_index = sub_content.index(song_mark)
-        sub_content = sub_content[start_index + len(song_mark): ]
-        end_index   = sub_content.index(end_mark)
-        song_data   = sub_content[0: end_index]
-        #song = parser.unescape(song)
-        #song = decode_html(song)
-        #song = unescape(song)
+        if 'simple_parse' in conf and conf['simple_parse'] :
+            start_index = sub_content.index(song_mark)
+            sub_content = sub_content[start_index + len(song_mark): ]
+            end_index   = sub_content.index(end_mark)
+            html        = sub_content[0: end_index]
 
-        sub_content = sub_content[end_index + len(end_mark): ]
-        start_index = sub_content.index(singer_mark)
-        end_index   = sub_content.index(end_mark)
-        singer_data = sub_content[start_index + len(singer_mark): end_index]
-        #print singer_data
-        if 'callback' in conf :
-            #tools.debug(conf['callback'], 1)
-            song   = callback(song_data, conf['callback'])
-            singer = callback(singer_data, conf['callback'])
-            #tools.debug(song)
-            #tools.debug(singer, 1)
+            song_singer = callback(html, conf['callback'])
+            #tools.debug(song_singer, 1)
+            
+            song   = song_singer['song']
+            singer = song_singer['singer']
+            
+            sub_content = sub_content[end_index + len(end_mark): ]
         else :
-            song   = tools.strip_html_tag(song_data)
-            singer = tools.strip_html_tag(singer_data)
-        #singer = parser.unescape(singer)
-        #singer = decode_html(singer)
-        #singer = unescape(singer)
+            #print sub_content
+            #{
+            start_index = sub_content.index(song_mark)
+            sub_content = sub_content[start_index + len(song_mark): ]
+            end_index   = sub_content.index(end_mark)
+            song_data   = sub_content[0: end_index]
+            #song = parser.unescape(song)
+            #song = decode_html(song)
+            #song = unescape(song)
 
-        sub_content = sub_content[end_index + len(end_mark): ]
+            sub_content = sub_content[end_index + len(end_mark): ]
+            start_index = sub_content.index(singer_mark)
+            end_index   = sub_content.index(end_mark)
+            singer_data = sub_content[start_index + len(singer_mark): end_index]
+            #tools.debug(song_data)
+            #tools.debug(singer_data, 1)
+            if 'callback' in conf :
+                #tools.debug(conf['callback'], 1)
+                song   = callback(song_data, conf['callback'])
+                singer = callback(singer_data, conf['callback'])
+                #tools.debug(song)
+                #tools.debug(singer, 1)
+            else :
+                song   = tools.strip_html_tag(song_data)
+                singer = tools.strip_html_tag(singer_data)
+            
+            #singer = parser.unescape(singer)
+            #singer = decode_html(singer)
+            #singer = unescape(singer)
+
+            sub_content = sub_content[end_index + len(end_mark): ]
+            #}
 
         try:
             song   = parser.unescape(song)
             singer = parser.unescape(singer)
 
-            out_str = song + "\t" + singer + "\n"
-            f.write(out_str)
+            if len(song) and len(singer) :
+                out_str = song + "\t" + singer + "\n"
+                f.write(out_str)
+            else :
+                logger.warn('It has empty data. song[%s], singer[%s]' % (song, singer))
         except (UnicodeDecodeError, UnicodeEncodeError), e :
             logger.info('Parse data error. Iterate times:%d. [Exception]: %s' % (i, e))
             pass

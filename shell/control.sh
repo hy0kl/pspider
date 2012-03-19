@@ -30,7 +30,7 @@ host_name=$(hostname)
 start_time=$(date +"%Y-%m-%d:%H:%M:%S")
 
 # modules
-modules="qq-music qq-index list-baidu kuwo-billboard sogou-newtop 9sky-top 1ting-song"
+modules="qq-music qq-index list-baidu kuwo-billboard sogou-newtop 9sky-top 1ting-song kugou"
 
 # change evn for your system
 py=python
@@ -243,13 +243,16 @@ then
     if ((new_song_num))
     then
         echo "-----New song title-----" >> "$mail_info"
+        echo "song  singer" >> "$mail_info"
         cat "$new_song" >> "$mail_info"
         echo "-----END-----" >> "$mail_info"
     else
         echo "May be something is wrong, pleash check it out..." >> "$mail_info"
     fi
+    echo "" >> "$mail_info"
     echo "---" >> "$mail_info"
-    echo "By hy0kle@gmail.com" >> "$mail_info"
+    echo "By Jerry Yang" >> "$mail_info"
+    echo "&#9993; hy0kle@gmail.com" >> "$mail_info"
 
     cat "$mail_info" | mail -s "${mail_title}" "${mail_list}"
     debug "send mail: Statistics"
