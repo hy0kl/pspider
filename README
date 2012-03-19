@@ -1,5 +1,9 @@
 python spider
 
+NOTICE: vi ~/.bashrc
++export LANG=en_US.UTF-8
+. ~/.bashrc
+
 Fetch title for new song, from qq music, kuwo, baidu, 9sky, kugou, top100, sogou, 1ting and so on.
 
 Usage:

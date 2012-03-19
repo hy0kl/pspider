@@ -169,8 +169,8 @@ def kugou_parse(html):
     res_tmp  = html.split(' - ')
 
     if 2 == len(res_tmp) :
-        res['song']   = res_tmp[0]
-        res['singer'] = res_tmp[1]
+        res['song']   = res_tmp[1]
+        res['singer'] = res_tmp[0]
 
     return res
 #}
