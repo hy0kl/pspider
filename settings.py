@@ -228,7 +228,7 @@ settings = {
         'save': './work/kugou.%s.html' % time_str,
         'retry': 5,
         'callback': 'kugou',
-        'pagination' : {'start': 1, 'end': 10},
+        'pagination' : {'start': 1, 'end': 10, 'step': 1},
 
         # parser mark
         'simple_parse': 1,
@@ -238,7 +238,7 @@ settings = {
         'song_mark': '<li>',
         'singer_mark': 'None',
 
-        'head_flag': 0,
+        'head_flag': 1,
         'headers': {
             #'Host': 'kugou.com',
             #'Connection': 'keep-alive',
@@ -252,7 +252,39 @@ settings = {
         }
     },
 
-    # pagination : {'start': 1, 'end': 10}
+    # google music
+    'google-music': {
+        'url': 'http://www.google.cn/music/chartlisting?q=chinese_new_songs_cn&cat=song&start=%s&grouping=new-release_music&expanded_groupings=new-release_music',
+        'iconv': 0, # html is utf-8
+        'log': './log/google-music.%s.log' % time_str,
+        'data_path': './data/google-music.%s.txt' % time_str,
+        'save': './work/google-music.%s.html' % time_str,
+        'retry': 5,
+        #'callback': 'google',
+        'pagination' : {'start': 0, 'end': 25, 'step': 25},
+
+        # parser mark
+        #'simple_parse': 0,
+        'block_start': '<table id="song_list"',
+        'block_end': '<div class="div-footer">',
+        'end_mark': '</td>',
+        'song_mark': '<td class="Title BottomBorder">',
+        'singer_mark': '<td class="Artist BottomBorder">',
+
+        'head_flag': 1,
+        'headers': {
+            #'Host': 'google.cn',
+            #'Connection': 'keep-alive',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.79 Safari/535.11',
+            #'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Referer': 'http://www.google.cn/',
+            #'Accept-Encoding': 'gzip,deflate,sdch',
+            #'Accept-Language': 'zh-CN,zh;q=0.8',
+            #'Accept-Charset': 'UTF-8,*;q=0.5',
+            #'Cookie: '
+        }
+    },
+    # pagination : {'start': 1, 'end': 10, 'step': 1}
 }
 
 if '__main__' == __name__ :

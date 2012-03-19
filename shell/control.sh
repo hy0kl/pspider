@@ -29,8 +29,11 @@ mail_list="hy0kle@gmail.com" # need, necessarily!!!
 host_name=$(hostname)
 start_time=$(date +"%Y-%m-%d:%H:%M:%S")
 
+# set encode
+export LANG=en_US.UTF-8
+
 # modules
-modules="qq-music qq-index list-baidu kuwo-billboard sogou-newtop 9sky-top 1ting-song kugou"
+modules="qq-music qq-index list-baidu kuwo-billboard sogou-newtop 9sky-top 1ting-song kugou google-music"
 
 # change evn for your system
 py=python

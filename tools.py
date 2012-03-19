@@ -10,9 +10,14 @@ import time
 import logging
 import urllib2
 import HTMLParser
+import htmlentitydefs
 
 def debug(msg, exit_flag = 0) :
-    print msg
+    try:
+        print msg
+    except (UnicodeEncodeError), e:
+        print e
+
     if exit_flag :
         exit(0)
 
@@ -39,12 +44,11 @@ def decode_html(string):
 #
 # @param text The HTML (or XML) source text.
 # @return The plain text, as a Unicode string, if necessary.
-
 def unescape(text):
-    def fixup(m):
-        text = m.group(0)
+    def convert(matchobj):
+        text = matchobj.group(0)
         if text[:2] == "&#":
-            # character reference
+            # Numeric Character Reference
             try:
                 if text[:3] == "&#x":
                     return unichr(int(text[3:-1], 16))
@@ -53,13 +57,13 @@ def unescape(text):
             except ValueError:
                 pass
         else:
-            # named entity
+            # Character entities references
             try:
                 text = unichr(htmlentitydefs.name2codepoint[text[1:-1]])
             except KeyError:
                 pass
-        return text # leave as is
-    return re.sub("&#?\w+;", fixup, text)
+        return text # Return Unicode characters
+    return re.sub("&#?\w+;", convert, text)
 
 def create_logger(module):
     from settings import settings as gconfig
@@ -163,11 +167,11 @@ def kugou_parse(html):
     html = strip_html_tag(html)
     html = re.sub(r'^\d*', '', html)
     res_tmp  = html.split(' - ')
-    
+
     if 2 == len(res_tmp) :
         res['song']   = res_tmp[0]
         res['singer'] = res_tmp[1]
-    
+
     return res
 #}
 
@@ -183,6 +187,7 @@ def get_html(module, conf, logger):
 
     start = 0
     end   = 0
+    step  = 1
     original_url   = conf['url']
     pagination_flag = 0
 
@@ -191,6 +196,7 @@ def get_html(module, conf, logger):
         pager = conf['pagination']
         start = pager['start']
         end   = pager['end']
+        step  = pager['step']
 
     while start <= end :
     #{
@@ -229,7 +235,7 @@ def get_html(module, conf, logger):
         else :
             logger.info('The HTML source is empty, url: %s' % url)
 
-        start += 1
+        start += step
     #}
 
     return contents
