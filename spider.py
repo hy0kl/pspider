@@ -18,6 +18,30 @@ import urllib2
 import settings as gconfig
 import tools
 
+def callback(obj, fun):
+#{
+    '''
+    factory method.
+    '''
+    callback = {
+        'baidu_top': 'baidu_top',
+        'kugou':     'kugou_parse',
+        'top_cn':    'top_cn',
+        'google':    'google_music',
+        'sogou_newtop' : 'sogou_newtop',
+    }
+
+    if fun in callback :
+        call_fun = callback[fun]
+        handle = getattr(tools, call_fun)
+
+        # debug
+        #tools.debug(handle, 1)
+        return handle(obj)
+    else :
+        return obj
+#}
+
 if '__main__' != __name__ :
     exit(0)
 
@@ -102,13 +126,14 @@ for content in contents :
         singer_data = sub_content[start_index + len(singer_mark): end_index]
         #print singer_data
         if 'callback' in conf :
-            song   = tools.callback(song_data, conf['callback'])
-            singer = tools.callback(singer_data, conf['callback'])
+            #tools.debug(conf['callback'], 1)
+            song   = callback(song_data, conf['callback'])
+            singer = callback(singer_data, conf['callback'])
             #tools.debug(song)
             #tools.debug(singer, 1)
         else :
-            song   = strip_html_tag(song_data)
-            singer = strip_html_tag(singer_data)
+            song   = tools.strip_html_tag(song_data)
+            singer = tools.strip_html_tag(singer_data)
         #singer = parser.unescape(singer)
         #singer = decode_html(singer)
         #singer = unescape(singer)

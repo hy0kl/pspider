@@ -127,6 +127,36 @@ settings = {
         }
     },
 
+    #
+    'sogou-newtop': {
+        'url': 'http://music.sogou.com/song/newtop_1.html',
+        'iconv': 1, # html is gbk
+        'log': './log/sogou-newtop.%s.log' % time_str,
+        'data_path': './data/sogou-newtop.%s.txt' % time_str,
+        'save': './work/sogou-newtop.%s.html' % time_str,
+        'retry': 5,
+        'callback': 'sogou_newtop',
+
+        # parser mark
+        'block_start': '<div id="mainwrap">',
+        'block_end': '<div id="song_pagebar"',
+        'end_mark': '</td>',
+        'song_mark': '<td class="songname"',
+        'singer_mark': '<td class="singger"',
+
+        'head_flag': 0,
+        'headers': {
+            #'Host': 'music.sogou.com',
+            #'Connection': 'keep-alive',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.79 Safari/535.11',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Referer': 'http://music.sogou.com/',
+            'Accept-Encoding': 'gzip,deflate,sdch',
+            'Accept-Language': 'zh-CN,zh;q=0.8',
+            'Accept-Charset': 'UTF-8,*;q=0.5',
+            #'Cookie: '
+        }
+    },
     # pagination : {'start': 1, 'end': 10}
 }
 

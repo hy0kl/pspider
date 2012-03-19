@@ -8,6 +8,8 @@ tools for spider
 import re
 import time
 import logging
+import urllib2
+import HTMLParser
 
 def debug(msg, exit_flag = 0) :
     print msg
@@ -92,6 +94,7 @@ def str_replace(html):
         '&#32;': ' ',
         '\n': '',
         '\r': '',
+        '\t': '',
     }
 
     for sp_str in special_str :
@@ -107,6 +110,9 @@ def strip_html_tag(html):
     '''
 
     html = re.sub(r'</?\w+[^>]*>', '', html)
+    html = html.strip()
+    space_html = html.split()
+    html = ' '.join(space_html)
     return html
 #}
 
@@ -122,9 +128,20 @@ def baidu_top(html):
             f_index  = sub_html.find(f_char)
             sub_html = sub_html[0: f_index]
 
-            html = sub_html
+            html = sub_html.strip()
     else :
         html =  strip_html_tag(html)
+
+    return html
+#}
+
+def sogou_newtop(html):
+#{
+    find = '>'
+    if find in html:
+        f_index= html.find(find)
+        html = html[f_index + len(find): ]
+        html = strip_html_tag(html)
 
     return html
 #}
@@ -137,21 +154,6 @@ def top_cn(html):
 
 def google_music(html):
     pass
-
-def callback(obj, fun):
-#{
-    callback = {
-        'baidu_top': 'baidu_top',
-        'kugou': 'kugou_parse',
-        'top_cn': 'top_cn',
-        'google': 'google_music',
-    }
-
-    if fun in callback :
-        return callback[fun](obj)
-    else :
-        return obj
-#}
 
 def get_html(module, conf, logger):
 #{

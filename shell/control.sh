@@ -100,7 +100,7 @@ if [ "start" == "$runtype" ]; then
 
     for module in $modules
     do
-        #$py spider.py $module &
+        $py spider.py $module &
         echo "Start spider process for $module ..."
     done
 
@@ -205,9 +205,7 @@ if [ ! -f $history ]; then
 fi
 
 cat "$today" "$history" | sort -uf > "$merge_data"
-diff -ru "$history" "$merge_data" | awk '
-    BEGIN
-    {
+diff -ru "$history" "$merge_data" | awk 'BEGIN{
         i = 0;
     }
     {
@@ -238,7 +236,7 @@ then
     mail_info="log/mail.info"
     > "$mail_info"
     new_song_num=$(wc -l "$new_song" | awk '{print $1}')
-    mail_tile="[Statistics][$host_name]Spider for new song $today_str"
+    mail_title="[Statistics][$host_name]Spider for new song $today_str"
 
     echo "Process start at $start_time,  Completed at $end_time." >> "$mail_info"
     echo "Find $new_song_num new song tilte." >> "$mail_info"
