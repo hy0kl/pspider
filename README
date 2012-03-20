@@ -12,3 +12,6 @@ Usage:
 
 crontab -e
 0 8 * * * cd /opt/fetch && ./shell/control.sh start >> log/crontab.log."$(date +\%Y-\%m-\%d.\%H.\%M)" 2>&1
+
+History:
+1. verison: 0.1 release, at 2012.03.20, please enjoy it.
