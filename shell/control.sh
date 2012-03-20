@@ -25,7 +25,7 @@ fi
 . ~/.bashrc
 DEBUG_FLAG=1
 SEND_MAIL=1
-mail_list="hy0kle@gmail.com" # need, necessarily!!!
+mail_list="hy0kle@gmail.com"
 host_name=$(hostname)
 start_time=$(date +"%Y-%m-%d:%H:%M:%S")
 
@@ -33,7 +33,12 @@ start_time=$(date +"%Y-%m-%d:%H:%M:%S")
 export LANG=en_US.UTF-8
 
 # modules
-modules="qq-music qq-index list-baidu kuwo-billboard sogou-newtop 9sky-top 1ting-song kugou google-music"
+#modules="qq-music qq-index list-baidu kuwo-billboard sogou-newtop 9sky-top 1ting-song kugou google-music"
+###
+# The 1ting.com is really web site whick is "made in China",
+# so, I decide to give it up.
+###
+modules="qq-music qq-index list-baidu kuwo-billboard sogou-newtop 9sky-top kugou google-music"
 
 # change evn for your system
 py=python
@@ -183,6 +188,13 @@ do
     spider_file="data/${module}.${today_str}.txt"
     if [ -f $spider_file ]; then
         cat $spider_file >> $today
+
+        spider_num=$(wc -l $spider_file | awk '{print $1}')
+        if ((! spider_num))
+        then
+            mail_title="[Warning][$host_name][spider.py] Template is changed: $today_str"
+            echo "The template of [$module] is changed, please fix settings.py -_-" | mail -s "$mail_title" "$mail_list"
+        fi
     else
         echo "$spider_file is NOT exists"
     fi
@@ -203,29 +215,32 @@ then
     exit -3
 fi
 
-if [ ! -f $history ]; then
+if [ ! -f "$history" ]; then
+    debug "$history is NOT exists, cp today to history data."
     cat "$today" | sort -uf > "$history"
 fi
 
 cat "$today" "$history" | sort -uf > "$merge_data"
 diff -ru "$history" "$merge_data" | awk 'BEGIN{
-        i = 0;
-    }
+    i = 0;
+}
+{
+    if (i > 2 && length($0))
     {
-        if (i > 2 && length($0))
+        char = substr($0, 1, 1);
+        if ("+" == char)
         {
-            char = substr($0, 1, 1);
-            if ("+" == char)
-            {
-                line = substr($0, 2, length($0));
-                print line;
-            }
+            line = substr($0, 2, length($0));
+            print line;
         }
-        i++
-    }' > "$new_song"
+    }
+
+    i++
+}' > "$new_song"
 
 # cycle for next day
-cat "$new_song" "$history" | sort -uf > "$history"
+#cat "$new_song" "$history" | sort -uf > "$history"
+cp "$merge_data" "$history"
 
 # create gbk version for some system.
 iconv -c -f "utf-8" -t "gbk" "$new_song" -o "$new_song_gbk"
@@ -261,6 +276,6 @@ then
     debug "send mail: Statistics"
 fi
 
-echo "Completed."
+echo "Start at $start_time, end at  $end_time, it is completed."
 
 exit 0

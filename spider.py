@@ -89,9 +89,11 @@ for content in contents :
     # backup
     if 'save' in conf :
         try:
-            back_f = open(conf['save'], 'w+', 0)
+            back_f = open(conf['save'], 'a', 0)
             back_f.write(content)
             logger.info('backup success.')
+
+            back_f.close()
         except Exception, e :
             logger.info('Can NOT save html page. [Except]: %s' % e)
             pass
