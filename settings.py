@@ -307,7 +307,7 @@ special = {
         'data_path': './data/xiami.%s.txt' % time_str,  # dp_fp
         'save': './work/xiami.%s.html' % time_str,
         'title_link': './work/xiami.title-link.%s.txt' % time_str,
-        'detail_data': './work/detail_data.%s.txt',     # dd_fp
+        'detail_data': './work/xiami.detail-data.%s.txt' % time_str,     # dd_fp
         'retry': 5,
 
         'head_flag': 0,
