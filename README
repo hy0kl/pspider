@@ -15,3 +15,4 @@ crontab -e
 
 History:
 1. verison: 0.1 release, at 2012.03.20, please enjoy it.
+2. verison: 0.2 release, at 2012.03.23, add function to fetch new song from xiami.com.
