@@ -27,7 +27,7 @@ class SpecialSpider :
         self.extract_url(module)
         self.parse_detail(module)
         return 0
-    
+
     def extract_url(self, module):
     #{
         conf   = self._conf[module]
@@ -105,7 +105,7 @@ class SpecialSpider :
                         html = urllib2.urlopen(req).read()
                     else:
                         html = urllib2.urlopen(url).read()
-                    
+
                     break
                 except Exception, e:
                     retry += 1
@@ -126,7 +126,7 @@ class SpecialSpider :
                     back_f.write(back_html)
                     logger.info('Backup success.')
                     back_f.close()
-                except Exception, e : 
+                except Exception, e :
                     logger.info('Can NOT save html page. [Except]: %s' % e)
                     pass
 
