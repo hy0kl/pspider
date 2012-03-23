@@ -284,7 +284,45 @@ settings = {
             #'Cookie: '
         }
     },
-    # pagination : {'start': 1, 'end': 10, 'step': 1}
+}
+
+special = {
+    # xiami
+    'xiami': {
+        'first_layer': {
+            'url': 'http://www.xiami.com/music/newalbum/type/all/ord/default/page/%s',
+            'pagination' : {'start': 1, 'end': 2, 'step': 1},
+            'start_mark': '<a id="showBlock"',
+            'end_mark': 'div class="albumThread_list"',
+            'callback': 'xiami_parse_url',
+            #'callback': '',
+        },
+        'second_layer': {
+            'start_mark': '<div id="album_rank"',
+            'end_mark': '<div id="wall"',
+            'callback': 'xiami_parse_detail',
+        },
+        'iconv': 0, # html is utf-8
+        'log': './log/xiami.%s.log' % time_str,
+        'data_path': './data/xiami.%s.txt' % time_str,  # dp_fp
+        'save': './work/xiami.%s.html' % time_str,
+        'title_link': './work/xiami.title-link.%s.txt' % time_str,
+        'detail_data': './work/detail_data.%s.txt',     # dd_fp
+        'retry': 5,
+
+        'head_flag': 0,
+        'headers': {
+            #'Host': 'xiami.com',
+            #'Connection': 'keep-alive',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.79 Safari/535.11',
+            #'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Referer': 'http://www.xiami.com/',
+            #'Accept-Encoding': 'gzip,deflate,sdch',
+            #'Accept-Language': 'zh-CN,zh;q=0.8',
+            #'Accept-Charset': 'UTF-8,*;q=0.5',
+            'Cookie': 'player_opencount=0; xiami_playlist_for_hao123=392059%2C1770764641%2C1770614593%2C1770714735%2C1770698677%2C1770829459%2C1770799928%2C1770828203%2C1770817009%2C1770519359%2C1769333110%2C1769275766%2C1770775994%2C176980%2C1770764730%2C1770821007%2C1770803528%2C1770700059%2C1770515731%2C1770817013%2C1770776664%2C8672%2C380307%2C1770714908%2C1770764711%2C1770783426%2C1770745554%2C1770786828%2C1770768310%2C1770770489%2C1770653173%2C1770825087%2C1770709745%2C1770665107%2C1770719126%2C1770757252%2C1770617135%2C1770707253%2C8674%2C1769802194%2C1770737583%2C1770779928%2C1770754047%2C1770714734%2C1770545005%2C1770138901%2C575%2C1770817010%2C; __gads=ID=d8f12e52ac16ed72:T=1332225422:S=ALNI_MYe91dHD_uw75mDZkj2Yj2iYMgvlQ; __XIAMI_SESSID=028f8ec54b325e6c12e965fa491e05dc; base_domain_8521f0afe9404fafbd73d063dd258df0=xiami.com; xnsetting_8521f0afe9404fafbd73d063dd258df0=%7B%22connectState%22%3A2%2C%22oneLineStorySetting%22%3A3%2C%22shortStorySetting%22%3A3%2C%22shareAuth%22%3Anull%7D; member_auth=uRDRyFTEX2WYd6a6lK6ZqBLMcQ4jWC0V2Ue5hEdZHV52Q%2B5akk0UuW%2BXpeXZyomnLZhYLFTO; t_sign_auth=0; index_logined_hotmusic_tab=1; music_tab=%2Fmusic%2Fnewalbum; __utma=251084815.1776831639.1331539086.1332313925.1332319368.4; __utmb=251084815.4.10.1332319368; __utmc=251084815; __utmz=251084815.1331539086.1.1.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); cnzz_a921634=12; sin921634=; rtime=2; ltime=1332319442322; cnzz_eid=76385987-1331535406-http%3A//www.google.com/url%3Fsa%3Dt%26rct%3Dj%26q%3D%26esrc%3Ds%26source%3Dweb%26cd%3D1%26c',
+        },
+    },
 }
 
 if '__main__' == __name__ :

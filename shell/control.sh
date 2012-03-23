@@ -38,7 +38,7 @@ export LANG=en_US.UTF-8
 # The 1ting.com is really web site whick is "made in China",
 # so, I decide to give it up.
 ###
-modules="qq-music qq-index list-baidu kuwo-billboard sogou-newtop 9sky-top kugou google-music"
+modules="qq-music qq-index list-baidu kuwo-billboard sogou-newtop 9sky-top kugou google-music xiami"
 
 # change evn for your system
 py=python

@@ -17,6 +17,7 @@ import urllib2
 
 import settings as gconfig
 import tools
+import SpecialSpider
 
 def callback(obj, fun):
 #{
@@ -56,17 +57,25 @@ if not (argc > 1) :
     exit(0)
 
 argv = sys.argv[1]
-if not (argv in gconfig.settings) :
+module = argv
+parser = HTMLParser.HTMLParser()
+
+if not ((argv in gconfig.settings) or (argv in gconfig.special)) :
     print 'Wrong configuration for:[%s].' % argv
     exit(0)
-
-module = argv
-
 # init logger
 logger = tools.create_logger(module)
 logger.info('Beginning for %s' % module)
 
-parser = HTMLParser.HTMLParser()
+### special site logic {
+if argv in gconfig.special :
+    sp = SpecialSpider.SpecialSpider()
+    sp.spider(module, gconfig.special, logger, parser)
+
+    logger.info('The [%s] process is completed.' % module)
+    exit(0)
+### end }
+
 conf = gconfig.settings[module]
 
 try:

@@ -66,8 +66,13 @@ def unescape(text):
     return re.sub("&#?\w+;", convert, text)
 
 def create_logger(module):
-    from settings import settings as gconfig
-    if not (module in gconfig) :
+    import settings as gconfs
+
+    if (module in gconfs.settings) :
+        gconfig = gconfs.settings
+    elif (module in gconfs.special) :
+        gconfig = gconfs.special
+    else :
         print 'wrong configuration.'
         exit(-1)
 
