@@ -315,7 +315,7 @@ class SpecialSpider :
 
         url = info_obj['url']
         logger.info('Start parse url for %s, url: %s' % (module, url))
-        tools.debug(url)
+        #tools.debug(url)
 
         html = tools.str_replace(html)
         detail_data = {
@@ -394,7 +394,7 @@ class SpecialSpider :
             e_index = html.find(end)
             sub_html= html[0: e_index + end_len]
             song = tools.strip_html_tag(sub_html)
-            tools.debug(song)
+            #tools.debug(song)
 
             # song artist album
             a_str = '%s\t%s\t%s\n' % (song, detail_data['artist'], detail_data['album'])
@@ -407,8 +407,8 @@ class SpecialSpider :
                 except :
                     logger.warn('Can NOT wrong song data for: %s' % url)
             else :
-                tools.debug(url)
-                tools.debug(html)
+                #tools.debug(url)
+                #tools.debug(html)
                 logger.warn('Parse song wrong for: %s' % url)
 
             html = html[e_index + end_len: ]

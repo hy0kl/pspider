@@ -291,7 +291,7 @@ special = {
     'xiami': {
         'first_layer': {
             'url': 'http://www.xiami.com/music/newalbum/type/all/ord/default/page/%s',
-            'pagination' : {'start': 1, 'end': 2, 'step': 1},
+            'pagination' : {'start': 1, 'end': 4, 'step': 1},
             'start_mark': '<a id="showBlock"',
             'end_mark': 'div class="albumThread_list"',
             'callback': 'xiami_parse_url',
