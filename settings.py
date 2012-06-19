@@ -138,11 +138,11 @@ settings = {
         'callback': 'sogou_newtop',
 
         # parser mark
-        'block_start': '<div id="mainwrap">',
-        'block_end': '<div id="song_pagebar"',
+        'block_start': '<div class=" cmtablew1 borderhr borderhb">',
+        'block_end': '<div id="footer">',
         'end_mark': '</td>',
-        'song_mark': '<td class="songname"',
-        'singer_mark': '<td class="singger"',
+        'song_mark': 'class="title">',
+        'singer_mark': '<a uigs="consume=singer_new"',
 
         'head_flag': 0,
         'headers': {
@@ -307,7 +307,7 @@ special = {
         'data_path': './data/xiami.%s.txt' % time_str,  # dp_fp
         'save': './work/xiami.%s.html' % time_str,
         'title_link': './work/xiami.title-link.%s.txt' % time_str,
-        'detail_data': './work/xiami.detail-data.%s.txt' % time_str,     # dd_fp
+        'detail_data': './work/xiami.detail_data.%s.txt' % time_str,     # dd_fp
         'retry': 5,
 
         'head_flag': 0,

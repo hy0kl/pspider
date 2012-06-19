@@ -399,7 +399,7 @@ class SpecialSpider :
             # song artist album
             a_str = '%s\t%s\t%s\n' % (song, detail_data['artist'], detail_data['album'])
             # song artist
-            s_str = '%s\t%s\n' % (song, detail_data['artist'])
+            s_str = '%s\t%s\t%s\n' % (song, detail_data['artist'], module)
             if len(song) > 0 :
                 try :
                     dd_fp.write(a_str)

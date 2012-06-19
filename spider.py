@@ -191,7 +191,7 @@ for content in contents :
 
         #print sys.getdefaultencoding()
         if len(song) and len(singer) :
-            out_str = song + "\t" + singer + "\n"
+            out_str = song + "\t" + singer + "\t" + module + "\n"
             f.write(out_str)
         else :
             logger.warn('It has empty data. song[%s], singer[%s]' % (song, singer))

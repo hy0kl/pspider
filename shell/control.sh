@@ -217,10 +217,10 @@ fi
 
 if [ ! -f "$history" ]; then
     debug "$history is NOT exists, cp today to history data."
-    cat "$today" | sort -uf > "$history"
+    cat "$today" | sort -k1,2 -uf > "$history"
 fi
 
-cat "$today" "$history" | sort -uf > "$merge_data"
+cat "$today" "$history" | sort -k1,2 -uf > "$merge_data"
 diff -ru "$history" "$merge_data" | awk 'BEGIN{
     i = 0;
 }
@@ -239,7 +239,6 @@ diff -ru "$history" "$merge_data" | awk 'BEGIN{
 }' > "$new_song"
 
 # cycle for next day
-#cat "$new_song" "$history" | sort -uf > "$history"
 cp "$merge_data" "$history"
 
 # create gbk version for some system.
