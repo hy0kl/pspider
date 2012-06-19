@@ -26,3 +26,4 @@ History
 ------
     1. verison: 0.1 release, at 2012.03.20, please enjoy it.
     2. verison: 0.2 release, at 2012.03.23, add function to fetch new song from xiami.com.
+    3. verison: 0.3 release, at 2012.06.19, sogou change html page, so change settings for it.
