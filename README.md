@@ -4,7 +4,7 @@ python spider
 
 Version
 ------
-    0.2
+    0.3
 
 Description
 ----------
