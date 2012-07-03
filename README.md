@@ -20,7 +20,7 @@ Usage
     ./shell/control.sh start
 
     crontab -e
-    0 8 * * * cd /opt/fetch && ./shell/control.sh start >> log/crontab.log."$(date +\%Y-\%m-\%d.\%H.\%M)" 2>&1
+    30 10 * * * cd /opt/fetch && ./shell/control.sh start >> log/crontab.log."$(date +\%Y-\%m-\%d.\%H.\%M)" 2>&1
 
 History
 ------
