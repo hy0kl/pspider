@@ -14,6 +14,8 @@ Description
 
     Fetch title for new song, from qq music, kuwo, baidu, 9sky, kugou, top100, sogou  and so on.
 
+    Python 2.7.1+
+
 Usage
 -----
     #cd "root-path"
